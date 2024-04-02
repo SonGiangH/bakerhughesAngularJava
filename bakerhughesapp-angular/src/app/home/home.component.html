@@ -1,0 +1,120 @@
+<app-header></app-header>
+<div class="container-fluid" *ngIf="surveys">
+  <h1 class="my-4">Motor Sliding Sheet created by Son Giang</h1>
+  <div class="ml-0 d-flex flex-column float-start mb-2" style="width: 300px">
+    <p class="fw-bold text-white" style="margin-left: -30%">
+      Current Sensor Offset: 16 m
+    </p>
+    <p class="fw-bold text-white" style="margin-left: -10%">
+      Default Motor Output: 12 deg/30m
+    </p>
+  </div>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">DP Length</th>
+        <th scope="col">Bit Depth</th>
+        <th scope="col">Survey Depth</th>
+        <th scope="col">Inc</th>
+        <th scope="col">Azi</th>
+        <th scope="col">Meters SEEN</th>
+        <th scope="col">BUR/ m</th>
+        <th scope="col">BUR/ 30m</th>
+        <th scope="col">Inc at Bit</th>
+        <th scope="col">ToolFace</th>
+        <th scope="col">From</th>
+        <th scope="col">To</th>
+        <th scope="col">Total Slid Dist</th>
+        <th scope="col">Seen - Unseen</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr>
+        <th scope="row" class="align-middle">1</th>
+        <td class="align-middle">9.20</td>
+        <td class="align-middle">904.5</td>
+        <td class="align-middle">0.23</td>
+        <td class="align-middle">160.33</td>
+        <td class="align-middle">0</td>
+        <td class="align-middle">0</td>
+        <td class="align-middle">0</td>
+        <td class="align-middle">0</td>
+        <td class="align-middle">0</td>
+        <td class="align-middle"></td>
+        <td class="align-middle">920.5</td>
+        <td class="align-middle">928.5</td>
+        <td class="align-middle">8</td>
+        <td class="mt-2">
+          <table class="table mb-0">
+            <tr>
+              <td class="align-middle">0</td>
+              <td class="align-middle">0</td>
+            </tr>
+          </table>
+        </td>
+        <td class="align-middle">
+          <a href="" style="margin-right: 20px">Delete</a>
+          <a href="">Edit</a>
+        </td>
+      </tr> -->
+      <tr *ngFor="let survey of surveys">
+        <th scope="row" class="align-middle">{{ survey.id }}</th>
+        <td class="align-middle">
+          {{ survey.dp_length | number : "1.2-2" }}
+        </td>
+        <td class="align-middle">{{ survey.bit_depth }}</td>
+        <td class="align-middle text-primary fw-bold">
+          {{ survey.survey_depth | number : "1.2-2" }}
+        </td>
+        <td class="align-middle text-primary fw-bold">{{ survey.inc }}</td>
+        <td class="align-middle text-primary fw-bold">{{ survey.azi }}</td>
+        <td class="align-middle">
+          {{ survey.totalseen !== 0 ? survey.totalseen : "-" }}
+        </td>
+        <td class="align-middle">
+          {{ survey.burm !== 0 ? survey.burm : "-" }}
+        </td>
+        <td class="align-middle">
+          {{ survey.bur30m !== 0 ? survey.bur30m : "-" }}
+        </td>
+        <td class="align-middle text-danger fw-bold">
+          {{ survey.incbit !== 0 ? survey.incbit : "-" }}
+        </td>
+        <td class="align-middle">{{ survey.toolface }}</td>
+        <td class="align-middle">{{ survey.st !== 0 ? survey.st : "-" }}</td>
+        <td class="align-middle">{{ survey.ed !== 0 ? survey.ed : "-" }}</td>
+        <td class="align-middle">
+          {{ survey.totalslid !== 0 ? survey.totalslid : "-" }}
+        </td>
+        <td class="mt-2">
+          <table class="table mb-0">
+            <tr>
+              <td class="align-middle">
+                {{ survey.slidseen | number : "1.2-2" }}
+              </td>
+              <td class="align-middle">
+                {{ survey.slidunseen | number : "1.2-2" }}
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td class="align-middle">
+          <a
+            href=""
+            style="margin-right: 20px"
+            (click)="deleteSurvey(survey.id)"
+            >Delete</a
+          >
+          <a href="" [routerLink]="['/edit', survey.id]">Edit</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex" style="margin-left: 20px">
+    <app-surveyform></app-surveyform>
+    <app-slidingform></app-slidingform>
+  </div>
+</div>
+<app-footer></app-footer>
