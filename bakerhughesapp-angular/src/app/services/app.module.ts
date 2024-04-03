@@ -14,6 +14,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { SteermodeComponent } from '../steermode/steermode.component';
 import { HoldmodeComponent } from '../holdmode/holdmode.component';
+import { ToolformComponent } from '../toolform/toolform.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HoldmodeComponent } from '../holdmode/holdmode.component';
     FooterComponent,
     SteermodeComponent,
     HoldmodeComponent,
+    ToolformComponent,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
   providers: [SurveyService],

@@ -56,8 +56,7 @@ export class SurveyformComponent {
         window.location.reload();
       },
       error: (error: any) => {
-        alert(`Cannot insert survey, error: ${error.error});
-        }`);
+        alert(`Cannot insert survey, error: ${error.error}`);
       },
     });
   }

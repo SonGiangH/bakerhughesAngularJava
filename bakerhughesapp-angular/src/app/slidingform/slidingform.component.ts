@@ -7,12 +7,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-slidingform',
   templateUrl: './slidingform.component.html',
-  styleUrls: ['./slidingform.component.scss']
+  styleUrls: ['./slidingform.component.scss'],
 })
 export class SlidingformComponent {
-  toolFace: string
-  st: number
-  ed: number
+  toolFace: string;
+  st: number;
+  ed: number;
 
   // constructor with dependencies injection
   constructor(private surveyService: SurveyService) {
@@ -20,36 +20,35 @@ export class SlidingformComponent {
     this.st = 0;
     this.ed = 0;
   }
-  
+
   //
 
   updateSurveyWithSlidingData() {
-   
-    console.log(`${this.toolFace} + ${this.st} + ${this.ed} `)
-    
-    const slidingDTO : SlidingDTO = {
-      "toolFace": this.toolFace,
-      "st" : this.st,
-      "ed" : this.ed
+    console.log(`${this.toolFace} + ${this.st} + ${this.ed} `);
+
+    const slidingDTO: SlidingDTO = {
+      toolFace: this.toolFace,
+      st: this.st,
+      ed: this.ed,
     };
     // update sliding data
     this.surveyService.updateSliding(slidingDTO).subscribe({
       next: () => {
         // update calculated surveys
         this.surveyService.getAllCalculatedSurveys();
-        // reload khi create thanh cong        
+        // reload khi create thanh cong
         window.location.reload();
       },
       complete: () => {
         // update calculated surveys
         this.surveyService.getAllCalculatedSurveys();
-        // reload khi create thanh cong        
+        // reload khi create thanh cong
         window.location.reload();
       },
       error: (error: any) => {
         alert(`Cannot insert sliding, error: ${error.error});
-        }`)
-      }
-    })
+        }`);
+      },
+    });
   }
 }

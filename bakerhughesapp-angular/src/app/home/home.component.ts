@@ -1,8 +1,8 @@
 import { SurveyService } from './../services/survey.service';
 import { SurveyDTO } from './../dtos/survey.dto';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ToolService } from '../services/tool.service';
+import { ToolDTO } from '../dtos/tool.dto';
 
 @Component({
   selector: 'app-home',
@@ -11,11 +11,16 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   surveys: SurveyDTO[] = [];
+  tool: ToolDTO = new ToolDTO(0); // Initialize tool object as null
 
-  constructor(private surveyService: SurveyService) {}
+  constructor(
+    private surveyService: SurveyService,
+    private toolService: ToolService
+  ) {}
 
   // Load component xong thuc hien getAll() ngay
   ngOnInit(): void {
+    this.getToolInformation();
     this.getAllCalculateSurveys();
   }
 
@@ -47,8 +52,7 @@ export class HomeComponent implements OnInit {
       },
       complete: () => {},
       error: (error: any) => {
-        alert(`Cannot insert survey, error: ${error.error});
-        }`);
+        alert(`Querry survey unsuccessful, error: ${error.error}`);
       },
     });
   }
@@ -100,6 +104,23 @@ export class HomeComponent implements OnInit {
       error: (error: any) => {
         alert(`Cannot delete survey, error: ${error.error});
         }`);
+      },
+    });
+  }
+
+  // get Tool information
+  getToolInformation() {
+    this.toolService.getToolById(1).subscribe({
+      next: (response: any) => {
+        if (response && response.data) {
+          this.tool = new ToolDTO(response.data); // Update tool object with response data
+        } else {
+          this.tool = new ToolDTO(0); // If response is null or data is missing, reset tool to default values
+        }
+      },
+      complete: () => {},
+      error: (error: any) => {
+        alert(`Querry tool information unsuccessful, error: ${error.error}`);
       },
     });
   }

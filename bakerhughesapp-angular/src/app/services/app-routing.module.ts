@@ -10,7 +10,7 @@ import { HoldmodeComponent } from '../holdmode/holdmode.component';
 // config routes
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'sliding-sheet', component: HomeComponent },
   { path: 'survey', component: SurveyformComponent },
   { path: 'edit/:id', component: EditSurveyComponentComponent },
   { path: 'steer', component: SteermodeComponent },
