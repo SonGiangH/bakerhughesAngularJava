@@ -26,12 +26,25 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" [routerLink]="['home']"
+            <a class="nav-link" href="#" routerLink="/home"
               >Motor Sliding Sheet
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">AutoTrak Calculation Force</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              AutoTrak Calculation Force
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" routerLink="/steer">Steer Mode</a>
+              <a class="dropdown-item" routerLink="/hold">Hold / Build Mode</a>
+            </div>
           </li>
         </ul>
         <form class="d-flex">

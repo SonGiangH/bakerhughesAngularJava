@@ -29,6 +29,7 @@ export class SteermodeComponent {
       return this.dlgBase / 1000;
     },
 
+    // STEER FORCE section
     // showing Steer Force adjust
     get steerForce(): number {
       return this.sfBase / 100;
@@ -63,6 +64,79 @@ export class SteermodeComponent {
       return (
         (this.steerForce *
           Math.sin(this.degreeToRadians(this.steerDirection)) *
+          this.doglegGradient) /
+        Math.sin(this.degreeToRadians(this.actualHoleInc))
+      );
+    },
+
+    // HOLD MODE Section
+    // Showing Target Inc section
+    get targetInclination(): number {
+      return this.tiBase / 10;
+    },
+
+    // Showing Build Force
+    get buildForce(): number {
+      return this.bfBase / 100;
+    },
+
+    // Showing Walk Force
+    get walkForce(): number {
+      return this.wfBase / 100.0 - 100.0;
+    },
+
+    get holdModeDLS(): number {
+      return this.doglegGradient * this.resultantSteerForce;
+    },
+
+    get resultantSteerForce(): number {
+      let sqrtValue = Math.sqrt(
+        Math.pow(this.walkForce, 2) + Math.pow(this.buildForce, 2)
+      );
+      return sqrtValue > 100 ? 100 : sqrtValue;
+    },
+
+    // Showing Hold Mode BUR / WR
+    formatDecimal(number: number): number {
+      return Math.round(number * 10) / 10;
+    },
+
+    convertToDegrees(radians: number): number {
+      return (radians * 180) / Math.PI;
+    },
+
+    get resultantDirection(): number {
+      if (this.actualHoleInc <= this.targetInclination) {
+        if (this.walkForce > 0) {
+          return this.formatDecimal(
+            this.convertToDegrees(Math.atan2(this.walkForce, this.buildForce))
+          );
+        } else {
+          return this.formatDecimal(
+            this.convertToDegrees(Math.atan2(this.walkForce, this.buildForce)) +
+              360.0
+          );
+        }
+      } else {
+        return this.formatDecimal(
+          this.convertToDegrees(Math.atan2(this.buildForce, this.walkForce)) +
+            90.0
+        );
+      }
+    },
+
+    get holdModeBuildRate(): number {
+      return (
+        this.resultantSteerForce *
+        Math.cos(this.degreeToRadians(Math.abs(this.resultantDirection))) *
+        this.doglegGradient
+      );
+    },
+
+    get holdModeWalkRate(): number {
+      return (
+        (this.resultantSteerForce *
+          Math.sin(this.degreeToRadians(this.resultantDirection)) *
           this.doglegGradient) /
         Math.sin(this.degreeToRadians(this.actualHoleInc))
       );
@@ -162,5 +236,20 @@ export class SteermodeComponent {
       this.direction.actIncBase - 10.0 <= 0.0
         ? 0.0
         : this.direction.actIncBase - 10.0;
+  }
+
+  // Build Force controller
+  increaseBuildForce(): void {
+    this.direction.bfBase =
+      this.direction.bfBase + 10000.0 / 31.0 > 10000.0
+        ? 10000.0
+        : this.direction.bfBase + 10000.0 / 31.0;
+  }
+
+  decreaseBuildForce(): void {
+    this.direction.bfBase =
+      this.direction.bfBase - 10000.0 / 31.0 < 0.0
+        ? 0.0
+        : this.direction.bfBase - 10000.0 / 31.0;
   }
 }

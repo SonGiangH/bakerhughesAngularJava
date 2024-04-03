@@ -11,7 +11,7 @@ import { HoldmodeComponent } from '../holdmode/holdmode.component';
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: SurveyformComponent },
+  { path: 'survey', component: SurveyformComponent },
   { path: 'edit/:id', component: EditSurveyComponentComponent },
   { path: 'steer', component: SteermodeComponent },
   { path: 'hold', component: HoldmodeComponent },

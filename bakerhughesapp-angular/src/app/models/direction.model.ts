@@ -48,73 +48,71 @@ export class Direction {
     );
   }
 
-  //   get buildForce(): number {
-  //     return this.bfBase / 100;
-  //   }
+  get targetInclination(): number {
+    return this.tiBase / 10;
+  }
 
-  //   get walkForce(): number {
-  //     return this.wfBase / 100.0 - 100.0;
-  //   }
+  get buildForce(): number {
+    return this.bfBase / 100;
+  }
 
-  //   get targetInclination(): number {
-  //     return this.tiBase / 10;
-  //   }
+  get walkForce(): number {
+    return this.wfBase / 100.0 - 100.0;
+  }
 
-  //   get resultantSteerForce(): number {
-  //     let sqrtValue = Math.sqrt(
-  //       Math.pow(this.walkForce, 2) + Math.pow(this.buildForce, 2)
-  //     );
-  //     return sqrtValue > 100 ? 100 : sqrtValue;
-  //   }
+  get holdModeDLS(): number {
+    return this.doglegGradient * this.resultantSteerForce;
+  }
 
-  //   formatDecimal(number: number): number {
-  //     return Math.round(number * 10) / 10;
-  //   }
+  get resultantSteerForce(): number {
+    let sqrtValue = Math.sqrt(
+      Math.pow(this.walkForce, 2) + Math.pow(this.buildForce, 2)
+    );
+    return sqrtValue > 100 ? 100 : sqrtValue;
+  }
 
-  //   get resultantDirection(): number {
-  //     if (this.actualHoleInc <= this.targetInclination) {
-  //       if (this.walkForce > 0) {
-  //         return this.formatDecimal(
-  //           this.convertToDegrees(Math.atan2(this.walkForce, this.buildForce))
-  //         );
-  //       } else {
-  //         return this.formatDecimal(
-  //           this.convertToDegrees(Math.atan2(this.walkForce, this.buildForce)) +
-  //             360.0
-  //         );
-  //       }
-  //     } else {
-  //       return this.formatDecimal(
-  //         this.convertToDegrees(Math.atan2(this.buildForce, this.walkForce)) +
-  //           90.0
-  //       );
-  //     }
-  //   }
+  formatDecimal(number: number): number {
+    return Math.round(number * 10) / 10;
+  }
 
-  //   get holdModeDLS(): number {
-  //     return this.doglegGradient * this.resultantSteerForce;
-  //   }
+  convertToDegrees(radians: number): number {
+    return (radians * 180) / Math.PI;
+  }
 
-  //   get holdModeBuildRate(): number {
-  //     return (
-  //       this.resultantSteerForce *
-  //       Math.cos(this.degreeToRadians(Math.abs(this.resultantDirection))) *
-  //       this.doglegGradient
-  //     );
-  //   }
+  get resultantDirection(): number {
+    if (this.actualHoleInc <= this.targetInclination) {
+      if (this.walkForce > 0) {
+        return this.formatDecimal(
+          this.convertToDegrees(Math.atan2(this.walkForce, this.buildForce))
+        );
+      } else {
+        return this.formatDecimal(
+          this.convertToDegrees(Math.atan2(this.walkForce, this.buildForce)) +
+            360.0
+        );
+      }
+    } else {
+      return this.formatDecimal(
+        this.convertToDegrees(Math.atan2(this.buildForce, this.walkForce)) +
+          90.0
+      );
+    }
+  }
 
-  //   get holdModeWalkRate(): number {
-  //     return (
-  //       (this.resultantSteerForce *
-  //         Math.sin(this.degreeToRadians(this.resultantDirection)) *
-  //         this.doglegGradient) /
-  //       Math.sin(this.degreeToRadians(this.actualHoleInc))
-  //     );
-  //   }
+  get holdModeBuildRate(): number {
+    return (
+      this.resultantSteerForce *
+      Math.cos(this.degreeToRadians(Math.abs(this.resultantDirection))) *
+      this.doglegGradient
+    );
+  }
 
-  //   // Include other increase and decrease methods...
-
-  //   private convertToDegrees(radians: number): number {
-  //     return (radians * 180) / Math.PI;
-  //   }
+  get holdModeWalkRate(): number {
+    return (
+      (this.resultantSteerForce *
+        Math.sin(this.degreeToRadians(this.resultantDirection)) *
+        this.doglegGradient) /
+      Math.sin(this.degreeToRadians(this.actualHoleInc))
+    );
+  }
 }
